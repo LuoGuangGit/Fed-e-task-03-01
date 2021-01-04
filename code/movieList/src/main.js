@@ -53,7 +53,12 @@ function changeSort (prop) {
 
 function add () {
   var n = originalData[Math.floor(Math.random() * 10)]
-  data = [{ rank: nextKey++, title: n.title, desc: n.desc, elmHeight: 0 }].concat(data)
+  data = [{
+    rank: nextKey++,
+    title: n.title,
+    desc: n.desc,
+    elmHeight: 0
+  }].concat(data)
   render()
   render()
 }
@@ -69,8 +74,14 @@ function movieView (movie) {
     style: {
       opacity: '0',
       transform: 'translate(-200px)',
-      delayed: { transform: `translateY(${movie.offset}px)`, opacity: '1' },
-      remove: { opacity: '0', transform: `translateY(${movie.offset}px) translateX(200px)` }
+      delayed: {
+        transform: `translateY(${movie.offset}px)`,
+        opacity: '1'
+      },
+      remove: {
+        opacity: '0',
+        transform: `translateY(${movie.offset}px) translateX(200px)`
+      }
     },
     hook: { insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight } }
   }, [
@@ -98,9 +109,18 @@ function view () {
       h('a.btn.add', { on: { click: add } }, 'Add'),
       'Sort by: ',
       h('span.btn-group', [
-        h('a.btn.rank', { class: { active: sortBy === 'rank' }, on: { click: [changeSort, 'rank'] } }, 'Rank'),
-        h('a.btn.title', { class: { active: sortBy === 'title' }, on: { click: [changeSort, 'title'] } }, 'Title'),
-        h('a.btn.desc', { class: { active: sortBy === 'desc' }, on: { click: [changeSort, 'desc'] } }, 'Desc')
+        h('a.btn.rank', {
+          class: { active: sortBy === 'rank' },
+          on: { click: [changeSort, 'rank'] }
+        }, 'Rank'),
+        h('a.btn.title',{
+          class: { active: sortBy === 'title' },
+          on: { click: [changeSort, 'title'] }
+        }, 'Title'),
+        h('a.btn.desc', {
+          class: { active: sortBy === 'desc' },
+          on: { click: [changeSort, 'desc'] }
+        }, 'Desc')
       ])
     ]),
     h('div.list', { style: { height: totalHeight + 'px' } }, data.map(movieView))
